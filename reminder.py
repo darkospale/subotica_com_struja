@@ -2,6 +2,8 @@ import requests
 import schedule
 import re
 import time
+import telebot
+import os
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta, date
 from chat_create_text_message_app import webhook
@@ -15,6 +17,8 @@ def main():
     month = get_current_month(next_day)
     day = get_current_day(next_day)
 
+    default_msg = f'{current_date} - Nema iskljuju za sutra.'
+
     # +1 because we look for dates in the future
     formatted_date = f'{date}-{month}'
 
@@ -25,15 +29,20 @@ def main():
 
     urls = find_valid_urls(url_base, url_pattern)
 
+    # @todo Handle google chat webhook.
     if urls:
+        TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
+        TELEGRAM_API_KEY = os.environ.get('TELEGRAM_API_KEY')
+
+        bot = telebot.TeleBot(TELEGRAM_API_KEY)
         for url in urls:
             status = check_for_string(url)
             if (status):
-                webhook(url)
+                bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=url)
             else:
-                webhook("Nema iskljucenja danas. :)")
+                bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=default_msg)
     else:
-        webhook("Nema iskljucenja danas")
+        bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=default_msg)
 
 
 def find_valid_urls(url_base, pattern):

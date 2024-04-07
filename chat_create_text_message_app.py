@@ -1,7 +1,9 @@
+import os
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 
 def webhook(message):
+    GOOGLE_SPACE_ID = os.environ.get('GOOGLE_SPACE_ID')
 
     # Specify required scopes.
     SCOPES = ['https://www.googleapis.com/auth/chat.spaces', 'https://www.googleapis.com/auth/chat.bot']
@@ -21,7 +23,7 @@ def webhook(message):
         # Replace SPACE with a space name.
         # Obtain the space name from the spaces resource of Chat API,
         # or from a space's URL.
-        parent='spaces/AAAAFUb0EFI',
+        parent=spaces/GOOGLE_SPACE_ID,
 
         # Construct message payload for Google Chat API
         body = {
