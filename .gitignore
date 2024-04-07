@@ -1,2 +1,6 @@
 /venv
 .idea
+*.txt
+!requirements.txt
+credentials.json
+/__pycache__
