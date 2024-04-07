@@ -2,17 +2,12 @@ import requests
 import schedule
 import re
 import time
-from urlmatch import urlmatch
-from flask import jsonify
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta, date
 from chat_create_text_message_app import webhook
 
 def main():
-
-    # current_date = datetime.date.today()
-    # Test - 3. april 2024.
-    current_date = datetime(2024, 4, 3)
+    current_date = datetime.today()
 
     next_day = current_date + timedelta(days=1)
 
@@ -105,12 +100,7 @@ def get_current_day(current_date):
 
 if __name__ == "__main__":
     main()
-#     app.run(debug=True)
+
 
 # Schedule the task to run at noon every day
 # schedule.every().day.at('12:00').do(main)
-
-# # Run the scheduler continuously
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)  # Optional: Add a small delay to avoid high CPU usage

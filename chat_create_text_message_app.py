@@ -1,10 +1,10 @@
-from apiclient.discovery import build
+from googleapiclient.discovery import build
 from google.oauth2 import service_account
 
 def webhook(message):
 
     # Specify required scopes.
-    SCOPES = ['https://www.googleapis.com/auth/chat.bot']
+    SCOPES = ['https://www.googleapis.com/auth/chat.spaces', 'https://www.googleapis.com/auth/chat.bot']
 
     # Specify service account details.
     CREDENTIALS = service_account.Credentials.from_service_account_file(
