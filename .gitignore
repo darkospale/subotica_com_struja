@@ -6,3 +6,4 @@ credentials.json
 /__pycache__
 .env
 .gitconfig
+/.ssh
