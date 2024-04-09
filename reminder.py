@@ -4,11 +4,14 @@ import re
 import time
 import telebot
 import os
+from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta, date
 from chat_create_text_message_app import webhook
 
 def main():
+    load_dotenv()
+
     current_date = datetime.today()
 
     next_day = current_date + timedelta(days=1)
@@ -17,7 +20,7 @@ def main():
     month = get_current_month(next_day)
     day = get_current_day(next_day)
 
-    default_msg = f'{current_date} - Nema iskljuju za sutra.'
+    default_msg = f'{current_date} - Nema iskljucenja za sutra.'
 
     # +1 because we look for dates in the future
     formatted_date = f'{date}-{month}'
@@ -31,8 +34,8 @@ def main():
 
     # @todo Handle google chat webhook.
     if urls:
-        TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
-        TELEGRAM_API_KEY = os.environ.get('TELEGRAM_API_KEY')
+        TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
+        TELEGRAM_API_KEY = os.getenv('TELEGRAM_API_KEY')
 
         bot = telebot.TeleBot(TELEGRAM_API_KEY)
         for url in urls:
