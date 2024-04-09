@@ -12,6 +12,8 @@ from chat_create_text_message_app import webhook
 def main():
     load_dotenv()
 
+    # Test
+    # current_date = datetime(2024, 4, 8)
     current_date = datetime.today()
 
     next_day = current_date + timedelta(days=1)
