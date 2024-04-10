@@ -43,7 +43,8 @@ def main():
         for url in urls:
             status = check_for_string(url)
             if (status):
-                bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=url)
+                message = f'Iskljucenje na adresi Somborski put sutra. Detaljnije info na linku: {url}
+                bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
             else:
                 bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=default_msg)
     else:
@@ -111,10 +112,10 @@ def get_current_day(current_date):
 
     return current_day_str
 
+# Test
+# schedule.every(10).minutes.do(main)
+schedule.every().day.at("11:00", "Europe/Belgrade").do(main)
 
-if __name__ == "__main__":
-    main()
-
-
-# Schedule the task to run at noon every day
-# schedule.every().day.at('12:00').do(main)
+while True:
+    schedule.run_pending()
+    time.sleep(10)

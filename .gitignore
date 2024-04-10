@@ -8,3 +8,4 @@ credentials.json
 .gitconfig
 /.ssh
 *.sql
+nohup.out
