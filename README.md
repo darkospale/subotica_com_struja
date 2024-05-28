@@ -22,10 +22,12 @@ After that, create a `.env` file and the following variables and fill in the inf
 * TELEGRAM_API_KEY
 * GOOGLE_SPACE_ID (WIP)
 
+<span style="color: red;">Make sure to have `pip` installed!</span>
+
 Now, you are ready to run your script. Do it by using this:
 
 To make it executable:
-```chmod +x /path/to/reminder.py```
+```chmod a+x /path/to/reminder.py```
 
 Use `nohup` to make the process run in the background: <br>
 ```nohup /path/to/reminder.py &```
@@ -39,3 +41,12 @@ If you want to, however, kill the process, you can find it like so:
 And kill the process by using:
 
 `kill -9 <process_id>`
+
+
+### To-Do list
+
+- [ ] Add multiple locations using multi-input fields;
+- [ ] Implement a graphical interface (GUI) using tkinter;
+- [ ] Select option if to include weekends or not;
+- [ ] Make an executable file;
+- [ ] Make the script accept arguments from the telegram bot chat;

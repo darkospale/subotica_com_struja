@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import requests
 import schedule
 import re
@@ -7,10 +9,15 @@ import os
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta, date
-from chat_create_text_message_app import webhook
+# from chat_create_text_message_app import webhook
 
 def main():
     load_dotenv()
+
+    TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
+    TELEGRAM_API_KEY = os.getenv('TELEGRAM_API_KEY')
+
+    bot = telebot.TeleBot(TELEGRAM_API_KEY)
 
     # Test
     # current_date = datetime(2024, 4, 8)
@@ -21,6 +28,10 @@ def main():
     date = get_current_date(next_day)
     month = get_current_month(next_day)
     day = get_current_day(next_day)
+
+    if day == 'subota' or day == 'nedelja':
+        bot.send_message(chat_id=TELEGRAM_CHAT_ID, text='Vikend je.')
+        return
 
     default_msg = f'{current_date} - Nema iskljucenja za sutra.'
 
@@ -36,14 +47,10 @@ def main():
 
     # @todo Handle google chat webhook.
     if urls:
-        TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
-        TELEGRAM_API_KEY = os.getenv('TELEGRAM_API_KEY')
-
-        bot = telebot.TeleBot(TELEGRAM_API_KEY)
         for url in urls:
             status = check_for_string(url)
             if (status):
-                message = f'Iskljucenje na adresi Somborski put sutra. Detaljnije info na linku: {url}
+                message = f'Iskljucenje na adresi Somborski put sutra. Detaljnije info na linku: {url}'
                 bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
             else:
                 bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=default_msg)
@@ -55,14 +62,14 @@ def find_valid_urls(url_base, pattern):
     grab = requests.get(url_base)
     soup = BeautifulSoup(grab.text, 'html.parser')
 
-    f = open("webpages.txt", "w")
+    f = open("webpages", "w")
     for link in soup.find_all("a"):
        data = link.get('href')
        f.write(data)
        f.write("\n")
 
     valid_urls = []
-    with open("webpages.txt", "r") as file:
+    with open("webpages", "r") as file:
         for line in file:
             if re.match(pattern, line.strip()):
                 valid_urls.append(line.strip())
@@ -81,7 +88,13 @@ def check_for_string(url):
 
         article_text_div = soup.find('div', class_='article__text plain-text')
 
-        if article_text_div and "Somborski put" in article_text_div.get_text():
+        list = [
+            'Somborski put između brojeva',
+            'Somborski put 33a',
+            'Somborski put'
+        ]
+
+        if article_text_div.get_text() in list:
             return True
 
     return False
@@ -114,8 +127,11 @@ def get_current_day(current_date):
 
 # Test
 # schedule.every(10).minutes.do(main)
-schedule.every().day.at("11:00", "Europe/Belgrade").do(main)
+# schedule.every().day.at("11:00", "Europe/Belgrade").do(main)
 
-while True:
-    schedule.run_pending()
-    time.sleep(10)
+if __name__ == '__main__':
+    main()
+
+# while True:
+#     schedule.run_pending()
+#     time.sleep(10)

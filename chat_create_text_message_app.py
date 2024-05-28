@@ -2,6 +2,7 @@ import os
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 
+
 def webhook(message):
     GOOGLE_SPACE_ID = os.environ.get('GOOGLE_SPACE_ID')
 
