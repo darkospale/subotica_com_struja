@@ -50,7 +50,7 @@ def main():
         for url in urls:
             status = check_for_string(url)
             if (status):
-                message = f'Iskljucenje na adresi Somborski put sutra. Detaljnije info na linku: {url}'
+                message = f'Moguće isključenje na adresi Somborski put (StudioPresent) sutra. Detaljnije info na linku: {url}'
                 bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
             else:
                 bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=default_msg)
